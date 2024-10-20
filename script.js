@@ -2,7 +2,11 @@ const dropdown = document.getElementById('trending-stocks');
 let showInfo=document.getElementById('stock-data');
 const api="HE1F6AVAW18A1SSL";
 let symInput=document.getElementById("search-bar");
+let srcBtn=document.getElementById("search-btn");
 
+srcBtn.addEventListener('click',()=>{
+    stockData(symInput.value);
+})
 symInput.addEventListener('change',()=>{
     stockData(symInput.value);
 });
@@ -30,21 +34,21 @@ async function stockData(input){
         let change=High-Low;
         let volume=result['Time Series (Daily)'][date]['5. volume'];
         console.log(price,change,volume);
-        schange.innerHTML=`${change}`;
-        sprice.innerHTML=`${price}`;
+        schange.innerHTML=`${change.toFixed(2)}`;
+        sprice.innerHTML=`${price.toFixed(2)}`;
         svolume.innerHTML=`${volume}`;
-        Name.innerHTML=`${sName}`;
+        Name.innerHTML=`${sName.toUpperCase()}`;
         
         let tr=document.createElement('tr');
         tr.innerHTML=
         `<td>
-            ${sName}
+            ${sName.toUpperCase()}
         </td>
         <td>
-            ${price}
+            ${price.toFixed(2)}
         </td>
         <td>
-            ${change}
+            ${change.toFixed(2)}
         </td>
         <td>
             ${volume}
