@@ -34,8 +34,8 @@ async function stockData(input){
         let change=High-Low;
         let volume=result['Time Series (Daily)'][date]['5. volume'];
         console.log(price,change,volume);
-        schange.innerHTML=`${change.toFixed(2)}`;
-        sprice.innerHTML=`${price.toFixed(2)}`;
+        schange.innerHTML=`${change}`;
+        sprice.innerHTML=`${price}`;
         svolume.innerHTML=`${volume}`;
         Name.innerHTML=`${sName.toUpperCase()}`;
         
@@ -45,10 +45,10 @@ async function stockData(input){
             ${sName.toUpperCase()}
         </td>
         <td>
-            ${price.toFixed(2)}
+            ${price}
         </td>
         <td>
-            ${change.toFixed(2)}
+            ${change}
         </td>
         <td>
             ${volume}
