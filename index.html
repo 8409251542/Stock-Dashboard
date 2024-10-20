@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
     
     <title>Stock Tracker</title>
 </head>
@@ -21,18 +20,33 @@
             <option value="nvda">NVDA</option>
             <option value="msft">MSFT</option>
             <option value="ibm">IBM</option>
+            <option value=""></option>
           </select>
         </header>
         <div id="stock-data">
-          <!-- Table and graph sections -->
-          <div class="w-full h-[50vh]">
+          <div>
+            <h1>Stock Information</h1>
+            <h6 > Name:-<span id="Name"></span></h6>
+            <h6 > Price:-<span id="price"></span></h6>
+            <h6 > Change:-<span id="change"></span></h6>
+            <h6 > Volume:-<span id="Volume"></span></h6>
+          </div>
+          <div class="charts">
             <canvas id="stockChart"></canvas>
           </div>
-          
-          <table id="comparison-table"></table>
-          <canvas id="stock-graph"></canvas>
+          <div class="cmpTlb">
+                <h2>Compration Table</h2>
+                <table id="tableStock">
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change</th>
+                        <th>Volume</th>
+                    </tr>
+                </table>
+          </div>
         </div>
-      </div>    
+    </div>    
       <script src="./script.js"></script>  
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>

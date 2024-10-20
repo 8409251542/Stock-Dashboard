@@ -1,5 +1,6 @@
 const dropdown = document.getElementById('trending-stocks');
-const api="QC83RPXC7001Z8P9";
+let showInfo=document.getElementById('stock-data');
+const api="HE1F6AVAW18A1SSL";
 let symInput=document.getElementById("search-bar");
 
 symInput.addEventListener('change',()=>{
@@ -8,12 +9,47 @@ symInput.addEventListener('change',()=>{
 dropdown.addEventListener('change',()=>{  
     stockData(dropdown.value);
 });
+let tableData=document.getElementById("tableStock");
 
 async function stockData(input){
+    let Name = document.getElementById("Name");
+    let sprice=document.getElementById("price");
+    let schange=document.getElementById("change");
+    let svolume=document.getElementById("Volume");
     try {
         let response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${input}&apikey=${api}`);
         let result = await response.json();
         console.log(result);
+        showInfo.style.display='flex';
+        let sName=result['Meta Data']['2. Symbol'];
+        console.log(result['Meta Data']['2. Symbol']);
+        let date=result['Meta Data']['3. Last Refreshed'];
+        let High=result['Time Series (Daily)'][date]['2. high'];
+        let Low=result['Time Series (Daily)'][date]['3. low'];
+        let price=result['Time Series (Daily)'][date]['4. close'];
+        let change=High-Low;
+        let volume=result['Time Series (Daily)'][date]['5. volume'];
+        console.log(price,change,volume);
+        schange.innerHTML=`${change}`;
+        sprice.innerHTML=`${price}`;
+        svolume.innerHTML=`${volume}`;
+        Name.innerHTML=`${sName}`;
+        
+        let tr=document.createElement('tr');
+        tr.innerHTML=
+        `<td>
+            ${sName}
+        </td>
+        <td>
+            ${price}
+        </td>
+        <td>
+            ${change}
+        </td>
+        <td>
+            ${volume}
+        </td>`
+        tableData.appendChild(tr);
 
         if (result['Time Series (Daily)']) {
             const timeSeries = result['Time Series (Daily)'];
@@ -21,7 +57,6 @@ async function stockData(input){
             const dates = [];
             const closingValues = [];
 
-            // Extract the last 30 days of data
             Object.keys(timeSeries).slice(0, 30).reverse().forEach(date => {
                 dates.push(date);
                 closingValues.push(parseFloat(timeSeries[date]['4. close']));
@@ -38,9 +73,14 @@ async function stockData(input){
         
     }
 }
+let stockChart=null;
 function renderChart(dates, closingValues) {
-    const ctx = document.getElementById('stockChart').getContext('2d');
-    const stockChart = new Chart(ctx, {
+    const ctx = document.getElementById('stockChart');
+    ctx.getContext('2d');
+    if(stockChart!=null){
+        stockChart.destroy();
+    }
+    stockChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dates,
